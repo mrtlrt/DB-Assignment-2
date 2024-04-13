@@ -1,5 +1,3 @@
-from typing_extensions import final
-
 import sys
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, min, max
