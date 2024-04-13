@@ -15,9 +15,6 @@ spark = SparkSession.builder.appName("Assigment 2 Question 2").getOrCreate()
 
 df = (
     spark.read.option("header", True)
-    .option("inferSchema", True)
-    .option("delimiter", ",")
-    .option("quotes", '"')
     .csv("hdfs://%s:9000/assignment2/part1/input/" % (hdfs_nn))
 )
 

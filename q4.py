@@ -13,9 +13,6 @@ spark = SparkSession.builder.appName("Assigment 2 Question 4").getOrCreate()
 
 cuisinesDF = (
     spark.read.option("header", True)
-    .option("inferSchema", True)
-    .option("delimiter", ",")
-    .option("quotes", '"')
     .csv("hdfs://%s:9000/assignment2/part1/input/" % (hdfs_nn))
 )
 

@@ -13,9 +13,6 @@ spark = SparkSession.builder.appName("Assigment 2 Question 5").getOrCreate()
 
 df = (
     spark.read.option("header", True)
-    .option("inferSchema", True)
-    .option("delimiter", ",")
-    .option("quotes", '"')
     .parquet("hdfs://%s:9000/assignment2/part2/input/" % (hdfs_nn))
 )
 
