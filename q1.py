@@ -21,11 +21,11 @@ def no_reviews(col1):
         return bool(col1)
 
 
-df = (spark.read.option("header", True).option("inferSchema", True).option("delimiter", ",").option("quotes", '"').csv("assignment2/part1/input/TA_restaurants_curated_cleaned.csv"))
+df = spark.read.option("header", True).option("inferSchema", True).option("delimiter", ",").option("quotes", '"').csv("hdfs://%s:9000/assignment2/part1/input/" % (hdfs_nn))
 
 
 df = df.filter(no_reviews(col("Reviews"))).filter((col("Rating") >= 1.0) & (col("Rating").isNotNull())) #removing rows with no reviews or rating < 1.0.
 
 df.show()
 
-df.write.mode("overwrite").csv("assignment2/output/question1/", header=True)
+df.write.mode("overwrite").csv("/assignment2/output/question1/", header=True)

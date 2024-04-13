@@ -18,14 +18,14 @@ df = (
     .option("inferSchema", True)
     .option("delimiter", ",")
     .option("quotes", '"')
-    .csv("assignment2/part1/input/TA_restaurants_curated_cleaned.csv")
+    .csv("hdfs://%s:9000/assignment2/part1/input/" % (hdfs_nn))
 )
 
 df = df.na.drop(how="any", subset=["Price Range", "Rating"])
 
 # finding the best restaurant s for each city for each price range (in terms of rating).
 
-best_restaurants_df = (df.groupBy(["Price Range", "City"]).agg(min("Rating")).withColumn("Rating", col("min(Rating)")).drop("min(Rating)"))
+best_restaurants_df = (df.groupBy(["Price Range", "City"]).agg(max("Rating")).withColumn("Rating", col("max(Rating)")).drop("max(Rating)"))
 
 # finding the worst restaurant s for each city for each price range (in terms of rating).
 
@@ -52,4 +52,4 @@ final_df = (final_df.dropDuplicates(["Price Range", "City", "Rating"])
 
 final_df.show()
 
-final_df.write.mode("overwrite").csv("assignment2/output/question2/", header=True)
+final_df.write.mode("overwrite").csv("/assignment2/output/question2/", header=True)

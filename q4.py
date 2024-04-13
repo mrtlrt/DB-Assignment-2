@@ -16,7 +16,7 @@ cuisinesDF = (
     .option("inferSchema", True)
     .option("delimiter", ",")
     .option("quotes", '"')
-    .csv("assignment2/part1/input/TA_restaurants_curated_cleaned.csv")
+    .csv("hdfs://%s:9000/assignment2/part1/input/" % (hdfs_nn))
 )
 
 cuisinesDF = cuisinesDF.withColumn("Cuisine Style", regexp_replace("Cuisine Style", "\\[", "")) # remove the [ replace with empty string ""
@@ -33,4 +33,4 @@ filtered_cuisinesDF = filtered_cuisinesDF.select(col("City").alias("City"), col(
 
 filtered_cuisinesDF.show()
 
-filtered_cuisinesDF.write.mode("overwrite").csv("assignment2/output/question4/", header=True)
+filtered_cuisinesDF.write.mode("overwrite").csv("/assignment2/output/question4/", header=True)

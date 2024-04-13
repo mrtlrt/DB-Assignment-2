@@ -16,7 +16,7 @@ df = (
     .option("inferSchema", True)
     .option("delimiter", ",")
     .option("quotes", '"')
-    .parquet("/content/assignment2/part2/input/tmdb_5000_credits.parquet")
+    .parquet("hdfs://%s:9000/assignment2/part2/input/" % (hdfs_nn))
 )
 
 json = ArrayType(StructType([StructField("name", StringType(), False)])) # array of objects, where each object has a single field named "name" containing string values
@@ -38,3 +38,5 @@ totalDF = df.groupBy("cast_pair").agg(count("*").alias("count")).filter(col("cou
 actorPairsDF = totalDF.join(df, ["cast_pair"], "inner").drop("cast_pair", "count")
 
 actorPairsDF.show()
+
+actorPairsDF.write.mode("overwrite").parquet("/assignment2/output/question5/")

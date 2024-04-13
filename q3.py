@@ -17,7 +17,7 @@ restaurantsDF = (
     .option("inferSchema", True)
     .option("delimiter", ",")
     .option("quotes", '"')
-    .csv("assignment2/part1/input/TA_restaurants_curated_cleaned.csv")
+    .csv("hdfs://%s:9000/assignment2/part1/input/" % (hdfs_nn))
 )
 
 # Calculate average rating per city
@@ -40,4 +40,4 @@ combinedDF = top3CitiesDF.union(bottom3CitiesDF).select("City", "AvgRating", "Ra
 
 combinedDF.show()
 
-combinedDF.write.mode("overwrite").csv("assignment2/output/question3/", header=True)
+combinedDF.write.mode("overwrite").csv("/assignment2/output/question3/", header=True)
